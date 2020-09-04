@@ -13,17 +13,30 @@ function playRound(playerSelection, computerSelection) {
 
     playerSelection = playerSelection.toLowerCase()
     computerSelection = computerSelection.toLowerCase()
+
+    let returnInfo = {
+        playerWins: false,
+        draw: false,
+        message: "",
+        error: null
+    }
     
     // If player chooses rock
     if (playerSelection === "rock") {
         if (computerSelection === "scissors") { // If he wins
-            return "You win! Rock beats Scissors"
+            returnInfo.playerWins = true
+            returnInfo.message = "You win! Rock beats Scissors"
+            return returnInfo
             
         } else if (computerSelection === "paper") { // If he loses  
-            return "You lose! Paper beats Rock"
+            returnInfo.playerWins = false
+            returnInfo.message = "You lose! Paper beats Rock"
+            return returnInfo
 
         } else if (computerSelection === playerSelection) {
-            return "It's a tie!"
+            returnInfo.draw = true
+            returnInfo.message = "It's a tie!"
+            return returnInfo
         }
     }
 
@@ -31,41 +44,81 @@ function playRound(playerSelection, computerSelection) {
     else if (playerSelection === "paper") {
         
         if (computerSelection === "rock") { // If he wins  
-            return "You win! Paper beats Rock"
+            returnInfo.playerWins = true
+            returnInfo.message = "You win! Paper beats Rock"
+            return returnInfo
 
         } else if (computerSelection === "scissors") { // If he loses
-            return "You lose! Scissors beats Paper"
-
+            returnInfo.playerWins = false
+            returnInfo.message = "You lose! Scissors beats Paper"
+            return returnInfo
+     
         } else if (computerSelection === playerSelection) {
-            return "It's a tie!"
+            returnInfo.draw = true
+            returnInfo.message = "It's a tie!"
+            return returnInfo
         }
     }
 
     // If player chooses scissors
     else if (playerSelection === "scissors") {
         
-        if (computerSelection === "paper") { // If he wins  
-            return "You win! Scissors beats Paper"
+        if (computerSelection === "paper") { // If he wins
+            returnInfo.playerWins = true
+            returnInfo.message = "You win! Scissors beats Paper"
+            return returnInfo
 
         } else if (computerSelection === "rock") { // If he loses
-            return "You lose! Rock beats Scissors"
+            returnInfo.playerWins = false
+            returnInfo.message = "You lose! Rock beats Scissors"
+            return returnInfo
 
         } else if (computerSelection === playerSelection) {
-            return "It's a tie!"
+            returnInfo.draw = true
+            returnInfo.message = "It's a tie!"
+            return returnInfo
         }
     }
 
+    // If user inputs an wrong answer
     else {
-        return alert("Invalid answer! Try again")
+        returnInfo.error = true
+        alert("Invalid answer! Try again")
+        return returnInfo
     }
 }
 
 function game() {
+    let score = {
+        player: 0,
+        computer: 0
+    }
+
     for (let i = 0; i < 5; i++) {
         let player = prompt("Choose rock, paper or scissors")
-        let cpu = computerPlay()
-        console.log(playRound(player, cpu))
+        let cpu = computerPlay()        
+        let result = playRound(player, cpu)
+
+        if (result.error) continue
+
+        if (!result.draw) {
+            if (result.playerWins) score.player++
+            if (!result.playerWins) score.computer++
+        }
+        console.log(result.message)
     }
+
+    if (score.player > score.computer) console.log("You are the winner!")
+    else if (score.player < score.computer) console.log("You lose!")
+
+
+    if (score.player > score.computer) {
+        console.log("You are the winner!")
+    } else {
+        console.log("You lose!")
+    }
+
+    console.log(`SCORE: ${score.player} x ${score.computer}`)
 }
 
 game()
