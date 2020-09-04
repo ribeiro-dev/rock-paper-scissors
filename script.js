@@ -108,10 +108,7 @@ function game() {
         console.log(result.message)
     }
 
-    if (score.player > score.computer) console.log("You are the winner!")
-    else if (score.player < score.computer) console.log("You lose!")
-
-
+    // Show the winner
     if (score.player > score.computer) {
         console.log("You are the winner!")
     } else {
